@@ -17,6 +17,11 @@ CMP  = 0b10100111
 JMP  = 0b01010100
 JEQ  = 0b01010101
 JNE  = 0b01010110
+#Stretch
+AND  = 0b10101000
+OR   = 0b10101010
+XOR  = 0b10101011
+NOT  = 0b01101001
 
 class CPU:
     """Main CPU class."""
@@ -58,6 +63,11 @@ class CPU:
         self.branchtable[JMP] = self.execute_JMP
         self.branchtable[JEQ] = self.execute_JEQ
         self.branchtable[JNE] = self.execute_JNE
+        #Stretch
+        self.branchtable[AND] = self.execute_AND
+        self.branchtable[OR] = self.execute_OR
+        self.branchtable[XOR] = self.execute_XOR
+        self.branchtable[NOT] = self.execute_NOT
 
     # Property wrapper for SP (Stack Pointer)
 
@@ -230,3 +240,16 @@ class CPU:
             self.execute_JMP()
         else:
             self.pc += self.instruction_size
+
+    #Stretch
+    def execute_AND(self):
+        self.reg[self.operand_a] &= self.reg[self.operand_b]
+
+    def execute_OR(self):
+        self.reg[self.operand_a] |= self.reg[self.operand_b]
+
+    def execute_XOR(self):
+        self.reg[self.operand_a] ^= self.reg[self.operand_b]
+
+    def execute_NOT(self):
+        self.reg[self.operand_a] = ~self.reg[self.operand_a]
